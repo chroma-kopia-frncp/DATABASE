@@ -1,0 +1,481 @@
+/* ================================================================
+   style.css  —  SecurePortal Custom Styles
+   INSERT: Link this file in <head> AFTER Bootstrap CSS
+   ================================================================ */
+
+/* ── Google Fonts are loaded in HTML <head> ──
+   Playfair Display  →  display / headings
+   DM Sans           →  body / labels / inputs
+*/
+
+/* ================================================================
+   1. CSS VARIABLES  (global design tokens)
+   ================================================================ */
+:root {
+  --clr-bg:          #0a0c14;
+  --clr-surface:     #12151f;
+  --clr-surface2:    #1a1e2e;
+  --clr-border:      rgba(255,255,255,0.08);
+  --clr-border-focus:rgba(124,186,255,0.55);
+  --clr-accent:      #4f9eff;
+  --clr-accent2:     #a78bfa;
+  --clr-gold:        #f4c76a;
+  --clr-text:        #e8ecf5;
+  --clr-muted:       #7a829e;
+  --clr-danger:      #ff6b6b;
+  --clr-success:     #52e0a0;
+  --clr-warning:     #f4c76a;
+  --radius-card:     20px;
+  --radius-input:    12px;
+  --shadow-card:     0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  --font-display:    'Playfair Display', Georgia, serif;
+  --font-body:       'DM Sans', sans-serif;
+  --transition:      0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================================
+   2. RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  background-color: var(--clr-bg);
+  font-family: var(--font-body);
+  color: var(--clr-text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ================================================================
+   3. BACKGROUND BLOBS  (ambient light effect)
+   ================================================================ */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.blob-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, #4f9eff 0%, transparent 70%);
+  top: -140px; left: -140px;
+  animation-duration: 14s;
+}
+.blob-2 {
+  width: 440px; height: 440px;
+  background: radial-gradient(circle, #a78bfa 0%, transparent 70%);
+  bottom: -120px; right: -120px;
+  animation-duration: 18s;
+  animation-direction: alternate-reverse;
+}
+.blob-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #f4c76a 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.08;
+  animation-duration: 22s;
+}
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.06); }
+}
+
+/* ================================================================
+   4. PORTAL WRAPPER  (fullscreen centering)
+   ================================================================ */
+.portal-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+/* ================================================================
+   5. PORTAL CARD
+   ================================================================ */
+.portal-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 40px 36px;
+  backdrop-filter: blur(20px);
+  animation: cardIn 0.55s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(36px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ================================================================
+   6. BRAND HEADER
+   ================================================================ */
+.brand-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent2));
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(79,158,255,0.35);
+}
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #e8ecf5 30%, var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.brand-tagline {
+  font-size: 0.8rem;
+  color: var(--clr-muted);
+  letter-spacing: 0.3px;
+}
+
+/* ================================================================
+   7. TABS
+   ================================================================ */
+.portal-tabs {
+  background: var(--clr-surface2);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid var(--clr-border);
+  gap: 4px;
+}
+.portal-tabs .nav-item { flex: 1; }
+.portal-tabs .nav-link {
+  border: none;
+  border-radius: 9px;
+  color: var(--clr-muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 10px 0;
+  transition: var(--transition);
+  background: transparent;
+}
+.portal-tabs .nav-link:hover {
+  color: var(--clr-text);
+  background: rgba(255,255,255,0.05);
+}
+.portal-tabs .nav-link.active {
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent2));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(79,158,255,0.35);
+}
+
+/* ================================================================
+   8. FORM INPUTS  (Bootstrap form-floating override)
+   ================================================================ */
+.portal-input {
+  background: var(--clr-surface2) !important;
+  border: 1.5px solid var(--clr-border) !important;
+  border-radius: var(--radius-input) !important;
+  color: var(--clr-text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.92rem !important;
+  height: 56px !important;
+  padding-right: 48px !important;
+  transition: border-color var(--transition), box-shadow var(--transition) !important;
+}
+.portal-input:focus {
+  border-color: var(--clr-border-focus) !important;
+  box-shadow: 0 0 0 3px rgba(79,158,255,0.15) !important;
+  background: var(--clr-surface2) !important;
+  outline: none !important;
+}
+.portal-input::placeholder { color: transparent; }
+.portal-input:-webkit-autofill,
+.portal-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 100px var(--clr-surface2) inset !important;
+  -webkit-text-fill-color: var(--clr-text) !important;
+}
+
+/* Floating label color */
+.form-floating > label {
+  color: var(--clr-muted) !important;
+  font-size: 0.88rem !important;
+  font-family: var(--font-body) !important;
+}
+.form-floating > .portal-input:focus ~ label,
+.form-floating > .portal-input:not(:placeholder-shown) ~ label {
+  color: var(--clr-accent) !important;
+  font-size: 0.75rem !important;
+}
+
+/* ================================================================
+   9. PASSWORD TOGGLE BUTTON
+   ================================================================ */
+.password-wrapper { position: relative; }
+.toggle-pass {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--clr-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 10;
+  transition: color var(--transition);
+}
+.toggle-pass:hover { color: var(--clr-accent); }
+
+/* ================================================================
+   10. PASSWORD STRENGTH BAR
+   ================================================================ */
+.strength-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.strength-bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 99px;
+  background: var(--clr-surface2);
+  transition: width 0.4s, background 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.strength-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  width: var(--strength-width, 0%);
+  background: var(--strength-color, transparent);
+  transition: width 0.4s ease, background 0.4s ease;
+}
+.strength-label {
+  font-size: 0.72rem;
+  color: var(--clr-muted);
+  white-space: nowrap;
+  min-width: 56px;
+}
+
+/* ================================================================
+   11. FORGOT PASSWORD LINK
+   ================================================================ */
+.forgot-link {
+  font-size: 0.8rem;
+  color: var(--clr-accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+.forgot-link:hover { color: var(--clr-accent2); text-decoration: underline; }
+
+/* ================================================================
+   12. SWITCH HINT  ("don't have an account?")
+   ================================================================ */
+.switch-hint {
+  font-size: 0.82rem;
+  color: var(--clr-muted);
+}
+.switch-link {
+  color: var(--clr-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.switch-link:hover { color: var(--clr-accent2); }
+
+/* ================================================================
+   13. ALERTS
+   ================================================================ */
+.portal-alert {
+  font-size: 0.84rem;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+.portal-alert.alert-danger  { background: rgba(255,107,107,0.15); color: #ff9a9a; }
+.portal-alert.alert-success { background: rgba(82,224,160,0.15);  color: #7ef0c0; }
+.portal-alert.alert-info    { background: rgba(79,158,255,0.15);  color: #90caff; }
+
+/* ================================================================
+   14. BUTTONS
+   ================================================================ */
+.portal-btn {
+  background: linear-gradient(135deg, var(--clr-accent) 0%, var(--clr-accent2) 100%);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 14px 20px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 20px rgba(79,158,255,0.3);
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+}
+.portal-btn:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(79,158,255,0.45);
+}
+.portal-btn:active { transform: translateY(0); }
+
+.portal-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--clr-border);
+  border-radius: 12px;
+  color: var(--clr-muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: border-color var(--transition), color var(--transition);
+}
+.portal-btn-outline:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+
+/* ================================================================
+   15. FORGOT PASSWORD MODAL
+   ================================================================ */
+.portal-modal {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-card);
+  color: var(--clr-text);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.6);
+}
+.portal-modal .modal-title { font-family: var(--font-display); font-size: 1.2rem; }
+.portal-modal .btn-close-white { filter: invert(1) grayscale(1); }
+.modal-desc {
+  font-size: 0.84rem;
+  color: var(--clr-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.modal-backdrop.show { background: rgba(10,12,20,0.75); backdrop-filter: blur(4px); }
+
+/* ================================================================
+   16. DASHBOARD / WELCOME SCREEN
+   ================================================================ */
+.dashboard-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--clr-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.4s ease both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.dashboard-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 50px 36px;
+  overflow: hidden;
+  animation: cardIn 0.55s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+.dash-glow {
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(79,158,255,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.avatar-ring {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent2));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  color: #fff;
+  margin-bottom: 20px;
+  box-shadow: 0 0 0 6px rgba(79,158,255,0.15), 0 12px 32px rgba(79,158,255,0.35);
+  animation: avatarPop 0.6s cubic-bezier(0.34,1.4,0.64,1) 0.2s both;
+}
+@keyframes avatarPop {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.avatar-icon { line-height: 1; }
+
+.welcome-sub {
+  font-size: 0.82rem;
+  color: var(--clr-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.welcome-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #e8ecf5 30%, var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.welcome-time {
+  font-size: 0.8rem;
+  color: var(--clr-muted);
+  margin-bottom: 0;
+}
+.dash-divider {
+  width: 48px; height: 2px;
+  background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent2));
+  border-radius: 99px;
+  margin: 22px auto;
+}
+.dash-message {
+  font-size: 0.88rem;
+  color: var(--clr-muted);
+  line-height: 1.6;
+}
+
+/* ================================================================
+   17. RESPONSIVE TWEAKS
+   ================================================================ */
+@media (max-width: 480px) {
+  .portal-card {
+    padding: 30px 22px;
+    border-radius: 16px;
+  }
+  .brand-name      { font-size: 1.4rem; }
+  .portal-btn      { padding: 13px 16px; font-size: 0.88rem; }
+  .dashboard-card  { padding: 40px 22px; }
+  .welcome-name    { font-size: 1.6rem; }
+}
+
+@media (max-width: 360px) {
+  .portal-card { padding: 22px 14px; }
+}
